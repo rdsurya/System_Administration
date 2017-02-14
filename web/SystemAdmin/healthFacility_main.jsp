@@ -182,7 +182,10 @@
                             <div class="form-group">
                                 <label class="col-md-4 control-label" for="textinput">Postcode</label>
                                 <div class="col-md-8">
-                                    <input id="HFM_postcode" maxlength="30"  type="text" placeholder="postcode" class="form-control input-md">
+                                    <input id="HFM_postcode" maxlength="30"  type="text" placeholder="postcode" class="form-control input-md" autocomplete="off">
+                                    <div id="HFM_match">
+                                        <!--for list of postcode-->
+                                    </div>
                                 </div>
                             </div>  
                              
@@ -512,6 +515,34 @@
                 $('#HFM_town').html( '<option  value="0" >-- Select the town --</option>');
             }
             
+        });
+        
+        
+        $('#HFM_postcode').on('keyup', function(){
+            var input = $(this).val(); // We take the input value
+            if (input.length >= 1) { // Minimum characters = 2 (you can change)
+                $('#HFM_match').html('<img src="bootstrap-3.3.6-dist/image/ajax-loader.gif" />'); // Loader icon apprears in the <div id="match"></div>
+                var dataFields = {code : input, process : "postcode"}; // We pass input argument in Ajax
+                $.ajax({
+                    type: "POST",
+                    url: "HFM_result.jsp", // call the php file ajax/tuto-autocomplete.php
+                    data: dataFields, // Send dataFields var
+                    timeout: 3000,
+                    success: function (dataBack) { // If success
+                        $('#HFM_match').html(dataBack); // Return data (UL list) and insert it in the <div id="match"></div>
+                        $('#matchList li').on('click', function () { // When click on an element in the list
+                            //$('#masterCode2').text($(this).text()); // Update the field with the new element
+                            $('#HFM_postcode').val($(this).text());
+                            $('#HFM_match').text(''); // Clear the <div id="match"></div>
+                        });
+                    },
+                    error: function () { // if error
+                        $('#HFM_match').text('Problem!');
+                    }
+                });
+            } else {
+                $('#HFM_match').text(''); // If less than 2 characters, clear the <div id="match"></div>
+            }
         });
 
                      

@@ -14,7 +14,7 @@
             </a>
         </li>
         <li>
-            <a href="user.jsp">
+            <a href="User_Administration_Maintenance.jsp">
                 <i class="fa fa-users fa-lg"></i> Maintain User Administration
             </a>
         </li>

@@ -86,44 +86,38 @@
                 <!-- content goes here -->
                 <form autocomplete="off" class="form-horizontal">
 
-                    <!-- Text input-->
+                     <!-- Text input-->
                     <div class="form-group">
-                        <label class="col-md-4 control-label" for="textinput">System Code</label>
+                        <label class="col-md-4 control-label" for="textinput">Health Facility</label>
                         <div class="col-md-8">
-                            <input id="PT_systemCode" name="textinput" type="text" class="form-control input-md" readonly>
+                            <input type="text"  class="form-control" id="ADT_hfc" placeholder="Health Facility" readonly="true">
+                            
                         </div>
                     </div>
 
                     <!-- Text input-->
                     <div class="form-group">
-                        <label class="col-md-4 control-label" for="textinput">Module Code</label>
+                        <label class="col-md-4 control-label" for="textinput">Discipline</label>
                         <div class="col-md-8">
-                            <input id="PT_moduleCode"  type="text"  class="form-control input-md" readonly>
-                        </div>
-                    </div>    
-
-                    <!-- Text input-->
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="textinput">Page Code</label>
-                        <div class="col-md-8">
-                            <input id="PT_pageCode" class="form-control" readonly="true"  >
+                            <input type="text"  class="form-control" id="ADT_discipline" placeholder="Discipline" readonly="true">
+                            
                         </div>
                     </div>
                     
-                    <!-- Text input-->
+                     <!-- Text input-->
                     <div class="form-group">
-                        <label class="col-md-4 control-label" for="textinput">Page Name</label>
+                        <label class="col-md-4 control-label" for="textinput">Subdiscipline</label>
                         <div class="col-md-8">
-                            <input id="PT_pageName" class="form-control" maxlength="100">
+                            <input type="text"  class="form-control" id="ADT_subdiscipline" placeholder="Subdiscipline" readonly="true">
+                          
                         </div>
                     </div>
-
+                     
                     
-                    <!-- Text input-->
-                    <div class="form-group">
+                     <div class="form-group">
                         <label class="col-md-4 control-label" for="textinput">Status</label>
                         <div class="col-md-8">
-                            <select class="form-control"  id="PT_status">
+                            <select class="form-control"  id="ADT_status">
                                 <option  value="0" >Active</option>
                                 <option  value="1" >Inactive</option>
                             </select>
@@ -154,7 +148,7 @@
 
 <script type="text/javascript" charset="utf-8">
 
-    $('#pageTable').off('click', '#THE_assignDisciplineTable #ADT_btnUpdate').on('click', '#THE_assignDisciplineTable #ADT_btnUpdate', function (e) {
+    $('#assignDisciplineTable').off('click', '#THE_assignDisciplineTable #ADT_btnUpdate').on('click', '#THE_assignDisciplineTable #ADT_btnUpdate', function (e) {
         e.preventDefault();
         
         //get the row value
@@ -162,64 +156,56 @@
         var rowData = row.find("#ADT_hidden").val();
         var arrayData = rowData.split("|");
         //assign into seprated val
-        var systemCode = arrayData[0], moduleCode = arrayData[2], pageCode = arrayData[4], pageName = arrayData[5], status = arrayData[6];
+        var hfcCode = arrayData[0], disciplineCode = arrayData[2], subdisciplineCode = arrayData[4], status = arrayData[6];
         //set value in input on the top
-        $('#PT_systemCode').val(systemCode);
-        $('#PT_moduleCode').val(moduleCode);
-        $('#PT_pageCode').val(pageCode);
-        $('#PT_pageName').val(pageName);
+        $('#ADT_hfc').val(hfcCode);
+        $('#ADT_discipline').val(disciplineCode);
+        $('#ADT_subdiscipline').val(subdisciplineCode);
+       
         
         if (status === '1')
-            $('#PT_status').val(1);
+            $('#ADT_status').val(1);
         else
-            $('#PT_status').val(0);
+            $('#ADT_status').val(0);
 
-
-
-        console.log(arrayData);
+            console.log(status);
     });
 
 
     $('#ADT_btnUpdateConfirm').on('click', function () {
 
-        var systemCode = $('#PT_systemCode').val();
-        var moduleCode = $('#PT_moduleCode').val();
-        var pageCode = $('#PT_pageCode').val();
-        var pageName = $('#PT_pageName').val();
-        var status = $('#PT_status').val();
+        var hfcCode = $('#ADT_hfc').val();
+        var disciplineCode = $('#ADT_discipline').val();
+        var subdisciplineCode = $('#ADT_subdiscipline').val();
+        var status = $('#ADT_status').val();
 
-        if (pageName === "" || pageName === null) {
-            alert("Please fill in the page name");
-            $('#PT_pageName').focus();
-
-        } else if (status !== '1' && status !== '0') {
+      if (status !== '1' && status !== '0') {
             alert("Please choose the status");
-            $('#PT_status').focus();
+            $('#ADT_status').focus();
 
         } else {
 
             var data = {
-                systemCode : systemCode,
-                moduleCode : moduleCode,
-                pageCode : pageCode,
-                pageName : pageName,
+                hfcCode : hfcCode,
+                disciplineCode : disciplineCode,
+                subdisciplineCode : subdisciplineCode,
                 status : status
             };
 
             $.ajax({
-                url: "page_update.jsp",
+                url: "assignDiscipline_update.jsp",
                 type: "post",
                 data: data,
                 timeout: 10000,
                 success: function (datas) {
                     console.log(datas.trim());
                     if (datas.trim() === 'Success') {
-                        $('#pageTable').load('page_table.jsp');
+                        $('#assignDisciplineTable').load('assignDiscipline_table.jsp');
                         $(".modal-backdrop").hide();
                         //alert("Update Success");
                         
                         bootbox.alert({
-                                    message: "Page information is updated",
+                                    message: "Health facility discipline assignment is updated",
                                     title: "Process Result",
                                     backdrop: true
                                 });
@@ -240,18 +226,17 @@
 
     });
 
-    $('#pageTable').off('click', '#THE_assignDisciplineTable #ADT_btnDelete').on('click', '#THE_assignDisciplineTable #ADT_btnDelete', function (e) {
+    $('#assignDisciplineTable').off('click', '#THE_assignDisciplineTable #ADT_btnDelete').on('click', '#THE_assignDisciplineTable #ADT_btnDelete', function (e) {
         e.preventDefault();
 
         var row = $(this).closest("tr");
         var rowData = row.find("#ADT_hidden").val();
         var arrayData = rowData.split("|");
         //assign into seprated val
-        var systemCode = arrayData[0], moduleCode = arrayData[2], pageCode = arrayData[4];
-        console.log(arrayData);
-        
+        var hfcCode = arrayData[0], disciplineCode = arrayData[2], subdisciplineCode = arrayData[4];
+               
         bootbox.confirm({
-            message: "Are you sure want to delete this item? " + systemCode + "-" + moduleCode + "-" + pageCode,
+            message: "Are you sure want to delete this item? " + hfcCode + "-" + disciplineCode + "-" + subdisciplineCode,
             title: "Delete Item?",
             buttons: {
                 confirm: {
@@ -268,23 +253,23 @@
                 if (result === true) {
                     
                     var data = {
-                        moduleCode : moduleCode,
-                        systemCode : systemCode,
-                        pageCode : pageCode
+                        hfcCode : hfcCode,
+                        disciplineCode : disciplineCode,
+                        subdisciplineCode : subdisciplineCode
                     };
 
                     $.ajax({
-                        url: "page_delete.jsp",
+                        url: "assignDiscipline_delete.jsp",
                         type: "post",
                         data: data,
                         timeout: 10000, // 10 seconds
                         success: function (datas) {
 
                             if (datas.trim() === 'Success') {
-                                $('#pageTable').load('page_table.jsp');
+                                $('#assignDisciplineTable').load('assignDiscipline_table.jsp');
                                 //alert("Delete Success");
                                  bootbox.alert({
-                                    message: "A page information is deleted",
+                                    message: "A health facility discipline assignment is deleted",
                                     title: "Process Result",
                                     backdrop: true
                                 });

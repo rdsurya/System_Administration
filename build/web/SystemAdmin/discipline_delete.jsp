@@ -4,6 +4,7 @@
     Author     : user
 --%>
 
+<%@page import="java.util.ArrayList"%>
 <%@page import="Config.Config"%>
 <%@page import="dBConn.Conn"%>
 <%@page import="main.RMIConnector"%>
@@ -17,14 +18,28 @@
 
     String id = request.getParameter("disciplineCode");
 
-    RMIConnector rmic = new RMIConnector();
-    String sql = "DELETE FROM adm_discipline WHERE discipline_cd = '" + id + "' ";
+    String sqlSelect = "select discipline_cd from adm_subdiscipline where discipline_cd = '" + id + "' limit 1";
 
-    boolean status = rmic.setQuerySQL(conn.HOST, conn.PORT, sql);
+    ArrayList<ArrayList<String>> dataUse = conn.getData(sqlSelect);
 
-    if (status == true) {
-        out.print("Success");
+    if (dataUse.size() > 0) {
+        
+        out.print("You can't delete this item because it is referenced by subdiscipline");
+
     } else {
-        out.print("Failed");
+
+        RMIConnector rmic = new RMIConnector();
+        String sql = "DELETE FROM adm_discipline WHERE discipline_cd = '" + id + "' ";
+
+        boolean status = rmic.setQuerySQL(conn.HOST, conn.PORT, sql);
+
+        if (status == true) {
+            out.print("Success");
+        } else {
+            out.print("Failed");
+        }
+
     }
+
+
 %>

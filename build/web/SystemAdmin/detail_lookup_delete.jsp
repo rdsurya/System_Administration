@@ -21,14 +21,29 @@
     String detailCode = request.getParameter("detailCode");
     String masterCode = request.getParameter("masterCode");
 
-    RMIConnector rmic = new RMIConnector();
-    String sql = "DELETE FROM adm_lookup_detail WHERE master_reference_code = '"+masterCode+"' AND detail_reference_code = '" + detailCode + "' ";
+    String sqlSelect = "select detail_reference_code, description from adm_lookup_detail a join adm_health_facility b "
+            + "on a.Detail_Reference_code = b.district_cd or a.detail_reference_code = b.town_cd "
+            + "or a.detail_reference_code = b.state_cd WHERE detail_reference_code = '"+detailCode+"' limit 1";
 
-    boolean status = rmic.setQuerySQL(conn.HOST, conn.PORT, sql);
+    ArrayList<ArrayList<String>> dataUse = conn.getData(sqlSelect);
 
-    if (status == true) {
-        out.print("Success");
+    if (dataUse.size() > 0) {
+
+        out.print("You can't delete this item because it is referrenced by Health Facility");
+
     } else {
-        out.print("Failed");
+        RMIConnector rmic = new RMIConnector();
+        String sql = "DELETE FROM adm_lookup_detail WHERE master_reference_code = '" + masterCode + "' AND detail_reference_code = '" + detailCode + "' ";
+
+        boolean status = rmic.setQuerySQL(conn.HOST, conn.PORT, sql);
+
+        if (status == true) {
+            out.print("Success");
+        } else {
+            out.print("Failed");
+        }
+
     }
+
+
 %>

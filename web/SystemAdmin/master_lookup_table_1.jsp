@@ -245,8 +245,12 @@
                         if (datas.trim() === 'Success') {
                             $('#masterTable').load('master_lookup_table_1.jsp');
                             bootbox.alert("A master lookup code is deleted");
+                            
                         } else if (datas.trim() === 'Failed') {
-                            alert("Delete failed!");
+                            bootbox.alert("Delete failed!");
+                            
+                        }else{
+                            bootbox.alert(datas.trim());
                         }
 
                     },

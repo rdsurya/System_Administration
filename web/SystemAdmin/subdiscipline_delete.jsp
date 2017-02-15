@@ -4,6 +4,7 @@
     Author     : user
 --%>
 
+<%@page import="java.util.ArrayList"%>
 <%@page import="Config.Config"%>
 <%@page import="dBConn.Conn"%>
 <%@page import="main.RMIConnector"%>
@@ -14,18 +15,31 @@
 
 <%
     Conn conn = new Conn();
-    
+
     String disciplineCode = request.getParameter("disciplineCode");
     String subdisciplineCode = request.getParameter("subdisciplineCode");
 
-    RMIConnector rmic = new RMIConnector();
-    String sql = "DELETE FROM adm_subdiscipline WHERE discipline_cd = '" + disciplineCode + "' AND subdiscipline_cd = '"+subdisciplineCode+"' ";
+    String sqlSelect = "Select hfc_cd from adm_hfc_discipline where discipline_cd = '" + disciplineCode + "' AND subdiscipline_cd = '" + subdisciplineCode + "' limit 1";
 
-    boolean status = rmic.setQuerySQL(conn.HOST, conn.PORT, sql);
+    ArrayList<ArrayList<String>> dataUse = conn.getData(sqlSelect);
 
-    if (status == true) {
-        out.print("Success");
+    if (dataUse.size() > 0) {
+        
+        out.print("You can't delete this item because it is referenced by health facility discipline");
+
     } else {
-        out.print("Failed");
+
+        RMIConnector rmic = new RMIConnector();
+        String sql = "DELETE FROM adm_subdiscipline WHERE discipline_cd = '" + disciplineCode + "' AND subdiscipline_cd = '" + subdisciplineCode + "' ";
+
+        boolean status = rmic.setQuerySQL(conn.HOST, conn.PORT, sql);
+
+        if (status == true) {
+            out.print("Success");
+        } else {
+            out.print("Failed");
+        }
     }
+
+
 %>

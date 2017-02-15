@@ -309,8 +309,13 @@
                     if (datas.trim() === 'Success') {
                         $('#detailTable').load('detail_lookup_table_1.jsp');
                         bootbox.alert("A lookup detail is deleted");
+                        
                     } else if (datas.trim() === 'Failed') {
                         bootbox.alert("Delete failed!");
+                        
+                    }else{
+                        
+                        bootbox.alert(datas.trim());
                     }
 
                 },

@@ -174,6 +174,7 @@
             $("#healthFacilityTable").load("healthFacility_table.jsp");
 
             $("#assignDisciplineMain").load("assignDiscipline_main.jsp");
+            $("#assignDisciplineTable").load("assignDiscipline_table.jsp");
 
         });
 

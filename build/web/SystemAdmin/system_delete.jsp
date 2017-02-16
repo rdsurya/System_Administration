@@ -4,6 +4,7 @@
     Author     : user
 --%>
 
+<%@page import="java.util.ArrayList"%>
 <%@page import="Config.Config"%>
 <%@page import="dBConn.Conn"%>
 <%@page import="main.RMIConnector"%>
@@ -17,14 +18,28 @@
 
     String id = request.getParameter("systemCode");
 
-    RMIConnector rmic = new RMIConnector();
-    String sql = "DELETE FROM adm_system WHERE system_code = '" + id + "' ";
+    String sqlCheck = "Select system_code from adm_module where system_code = '" + id + "' limit 1";
 
-    boolean status = rmic.setQuerySQL(conn.HOST, conn.PORT, sql);
+    ArrayList<ArrayList<String>> dataUse = conn.getData(sqlCheck);
 
-    if (status == true) {
-        out.print("Success");
+    if (dataUse.size() > 0) {
+
+        out.print("You can't delete this item because it is referenced by module");
+
     } else {
-        out.print("Failed");
+
+        RMIConnector rmic = new RMIConnector();
+        String sql = "DELETE FROM adm_system WHERE system_code = '" + id + "' ";
+
+        boolean status = rmic.setQuerySQL(conn.HOST, conn.PORT, sql);
+
+        if (status == true) {
+            out.print("Success");
+        } else {
+            out.print("Failed");
+        }
+
     }
+
+
 %>

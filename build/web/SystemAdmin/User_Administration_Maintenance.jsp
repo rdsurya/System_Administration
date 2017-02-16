@@ -59,7 +59,7 @@
                                                 USER </a>
                                         </li>
                                         <li>
-                                            <a href="#" data-toggle="tab">
+                                            <a href="#UAM_tab2" data-toggle="tab">
                                                 ROLE </a>
                                         </li>
 
@@ -78,16 +78,16 @@
                                             </div>
 
                                         </div>
-<!--                                        <div class="tab-pane" id="tab_default_2">
+                                       <div class="tab-pane" id="UAM_tab2">
 
-                                            <div id="detail">
-                                                <div id="detailMain">
+                                            <div id="role">
+                                                <div id="roleMain">
                                                 </div>
-                                                <div id="detailTable">
+                                                <div id="roleTable">
                                                 </div>
                                             </div>
 
-                                        </div>-->
+                                        </div>
 
                                     </div>
                                 </div>
@@ -139,6 +139,10 @@
             
             $("#userMain").load("user_main.jsp");
             //$("#userTable").load("user_table.jsp");
+            
+            $("#roleMain").load("role_main.jsp");
+            $("#roleTable").load("role_table.jsp");
+            
 
            
         });

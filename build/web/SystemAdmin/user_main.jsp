@@ -29,12 +29,12 @@
             <div class="modal-body">
 
                 <!-- content goes here -->
-                <form class="form-horizontal" id="addForm">
+                <form class="form-horizontal" id="UM_form">
 
                     <div class="col-md-12">
 
                         <div class="row">
-                            <hr/><h4>Basic Personal Information</h4><br/>
+                            <br/><h4>Basic Personal Information</h4><br/>
 
 
                             <div class="col-md-6">
@@ -53,7 +53,7 @@
                                     <label class="col-md-4 control-label" for="textinput">Title</label>
                                     <div class="col-md-8">
                                         <select id="UM_title" class="form-control input-md">
-                                            <option value="0">-- Select title --</option>
+                                            <option value="">-- Select title --</option>
                                             <%
                                                 String sqlTitle = "Select detail_reference_code, description FROM adm_lookup_detail WHERE master_reference_code = '0026'";
                                                 ArrayList<ArrayList<String>> dataTitle = conn.getData(sqlTitle);
@@ -171,10 +171,10 @@
                                     <label class="col-md-4 control-label" for="textinput">Gender</label>
                                     <div class="col-md-8">
                                         <select id="UM_gender" class="form-control input-md">
-                                            <option value="0">-- Select gender --</option>
-                                            <option value="001">Male</option>
-                                            <option value="002">Female</option>
-                                            <option value="003">Other</option>
+                                            <option value="">-- Select gender --</option>
+                                            <option value="L">Male</option>
+                                            <option value="P">Female</option>
+                                            <option value="R">Other</option>
                                         </select>
                                     </div>
                                 </div>
@@ -190,7 +190,7 @@
                                     <label class="col-md-4 control-label" for="textinput">Occupation</label>
                                     <div class="col-md-8">
                                         <select id="UM_occupation" class="form-control input-md">
-                                            <option value="0">-- Select occupation --</option>  
+                                            <option value="">-- Select occupation --</option>  
                                             <%
                                                 String sqlOccupation = "Select detail_reference_code, description FROM adm_lookup_detail WHERE master_reference_code = '0050'";
                                                 ArrayList<ArrayList<String>> dataOccupation = conn.getData(sqlOccupation);
@@ -211,7 +211,7 @@
                                     <label class="col-md-4 control-label" for="textinput">Nationality</label>
                                     <div class="col-md-8">
                                         <select id="UM_nationality" class="form-control input-md">
-                                            <option value="0">-- Select nationality --</option>  
+                                            <option value="">-- Select nationality --</option>  
                                             <%
                                                 String sqlNationality = "Select detail_reference_code, description FROM adm_lookup_detail WHERE master_reference_code = '0011'";
                                                 ArrayList<ArrayList<String>> dataNationality = conn.getData(sqlNationality);
@@ -360,8 +360,8 @@
                                     <label class="col-md-4 control-label" for="textinput">User ID Status</label>
                                     <div class="col-md-8">
                                         <select id="UM_userIDStatus" class="form-control input-md">
-                                            <option value="">-- Select gender --</option>
-                                            <option value="0">Active</option>
+                                            <option value="">-- Select status --</option>
+                                            <option value="">Active</option>
                                             <option value="1">Terminated</option>
                                             <option value="2">Suspended</option>
                                         </select>
@@ -393,7 +393,7 @@
 <!-- Add Modal End -->                         
 <!-- Add Part End -->
 
-
+<script src="libraries/validator.js" type="text/javascript"></script>
 <script>
 
     w3IncludeHTML();
@@ -403,6 +403,7 @@
         $('#UM_dob').datepicker({
             changeMonth: true,
             changeYear: true,
+            maxDate: 0,
             dateFormat: 'dd/mm/yy'
         });
 
@@ -418,36 +419,110 @@
             dateFormat: 'dd/mm/yy'
         });
 
-        function reset() {
-            document.getElementById("masterCode").value = "";
-            document.getElementById("masterName").value = "";
-            document.getElementById("masterSource").value = "";
-            document.getElementById("status1").checked = false;
-            document.getElementById("status2").checked = false;
+        function UM_reset() {
+            document.getElementById("UM_form").reset();
         }
 
         $('#btnReset').on('click', function () {
-            reset();
+            UM_reset();
         });
 
         $('#UM_brnAdd').on('click', function () {
 
-            var masterCode = $('#masterCode').val();
-            var masterName = $('#masterName').val();
-            var masterSource = $('#masterSource').val();
-            var status = $('input[name="status"]:checked').val();
+            var name = $('#UM_name').val();
+            var title = $('#UM_title').val();
+            var icNo = $('#UM_icno').val();
+            var email = $('#UM_email').val();
+            var userID = $('#UM_userID').val();
+            var hfc = $('#UM_hfc').val();
+            var password = $('#UM_password').val();
+            var password2 = $('#UM_password2').val();
+            var dob = $('#UM_dob').val();
+            var gender = $('#UM_gender').val();
+            var occupation = $('#UM_occupation').val();
+            var nationality = $('#UM_nationality').val();
+            var officeTel = $('#UM_officeTel').val();
+            var homeTel = $('#UM_homeTel').val();
+            var mobilePhone = $('#UM_mobile').val();
+            var faxNo = $('#UM_fax').val();
+            var userIDCategory = $('#UM_userIDCategory').val();
+            var userType = $('#UM_userType').val();
+            var userGroup = $('#UM_userGroup').val();
+            var userClass = $('#UM_userClass').val();
+            var startDate = $('#UM_startDate').val();
+            var endDate = $('#UM_endDate').val();
+            var userIDStatus = $('#UM_userIDStatus').val();
 
-            if (masterCode === "") {
-                bootbox.alert("Fill in the Master Code");
-                $('#masterCode').focus();
+            if (name === "") {
+                bootbox.alert("Fill in the staff name");
 
-            } else if (masterName === "") {
-                bootbox.alert("Complete The Fields");
-                $('#masterName').focus();
+            } else if (title === "") {
+                bootbox.alert("Select the title");
 
-            } else if (status !== "1" && status !== "0") {
-                alert("Select Any Status");
-            } else {
+            } else if (icNo === "") {
+                bootbox.alert("Fill in the staff IC/ID Number");
+
+            } else if (email === "") {
+                bootbox.alert("Fill in the staff email");
+
+            } else if (userID === "") {
+                bootbox.alert("Fill in the staff user ID");
+
+            } else if (hfc === "") {
+                bootbox.alert("Fill in the staff health facility");
+
+            } else if (password === "" || password2 === "") {
+                bootbox.alert("Fill in all password fields");
+
+            } else if (dob === "") {
+                bootbox.alert("Select the staff date of birth");
+
+            } else if (gender === "") {
+                bootbox.alert("Select the staff gender");
+
+            } else if (occupation === "") {
+                bootbox.alert("Select the staff occupation");
+
+            } else if (nationality === "") {
+                bootbox.alert("Select the staff nationality");
+
+            } else if (mobilePhone === "") {
+                bootbox.alert("Fill in the staff mobile phone number");
+
+            } else if (startDate === "" || endDate) {
+                bootbox.alert("Select the start date and end date of the staff");
+
+            }else if (ValidateEmail(email) === false) {
+                bootbox.alert("Invalid email address");
+                $('#UM_email').val("");
+
+            } else if (password.length < 5) {
+                bootbox.alert("Password is too short. Password must have at least 6 characters");
+                $('#UM_password').val("");
+                $('#UM_password2').val("");
+
+            } else if (password !== password2) {
+                bootbox.alert("Password and password confirmation does not match");
+                $('#UM_password').val("");
+                $('#UM_password2').val("");
+
+            }else if (officeTel !== "" && validatePhonenumber(officeTel) === false) {
+                bootbox.alert("Invalid office telephone number. Only numbers and +, - signs are allowed.");
+                $('#UM_officeTel').val("");
+
+            }else if (faxNo !== "" && validatePhonenumber(faxNo) === false) {
+                bootbox.alert("Invalid fax number. Only numbers and +, - signs are allowed.");
+                $('#UM_fax').val("");
+
+            }else if (homeTel !== "" && validatePhonenumber(homeTel) === false) {
+                bootbox.alert("Invalid home telephone number. Only numbers and +, - signs are allowed.");
+                $('#UM_homeTel').val("");
+
+            }else if ( validatePhonenumber(mobilePhone) === false) {
+                bootbox.alert("Invalid mobile phone number. Only numbers and +, - signs are allowed.");
+                $('#UM_mobile').val("");
+
+            }  else {
 
                 var data = {
                     masterCode: masterCode,
@@ -468,13 +543,13 @@
                             $('#masterTable').load('master_lookup_table_1.jsp');
                             $('#UM_detail').modal('hide');
                             bootbox.alert("New master lookup code is added");
-                            reset();
+                            UM_reset();
 
                         } else if (datas.trim() === 'Failed') {
 
                             bootbox.alert("Insertion failed!");
                             //$('#UM_detail').modal('hide');
-                            reset();
+                            UM_reset();
 
                         } else {
                             bootbox.alert(datas.trim());

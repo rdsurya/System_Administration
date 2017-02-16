@@ -1,6 +1,6 @@
 <%-- 
-    Document   : system_delete
-    Created on : Feb 7, 2017, 12:56:35 PM
+    Document   : role_delete
+    Created on : Feb 16, 2017, 12:25:44 PM
     Author     : user
 --%>
 
@@ -16,20 +16,20 @@
 <%
     Conn conn = new Conn();
 
-    String id = request.getParameter("systemCode");
+    String roleCode = request.getParameter("roleCode");
 
-    String sqlCheck = "Select system_code from adm_module where system_code = '" + id + "' limit 1";
+    String sqlCheck = "Select role_code from adm_user_access_role where role_code = '" + roleCode + "' limit 1";
 
     ArrayList<ArrayList<String>> dataUse = conn.getData(sqlCheck);
 
     if (dataUse.size() > 0) {
 
-        out.print("You can't delete this item because it is referenced by module");
+        out.print("You can't delete this item because it is referenced by user access role");
 
     } else {
 
         RMIConnector rmic = new RMIConnector();
-        String sql = "DELETE FROM adm_system WHERE system_code = '" + id + "' ";
+        String sql = "DELETE FROM adm_role WHERE role_code = '" + roleCode + "' ";
 
         boolean status = rmic.setQuerySQL(conn.HOST, conn.PORT, sql);
 

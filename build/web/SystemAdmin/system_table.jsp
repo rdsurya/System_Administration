@@ -254,6 +254,10 @@
                             
                         } else if (datas.trim() === 'Failed') {
                             bootbox.alert("Delete failed!");
+                            
+                        } else{
+                            bootbox.alert(datas.trim());
+                            
                         }
 
                     },

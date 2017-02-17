@@ -32,7 +32,7 @@
         </li>
 
         <li>
-            <a href="queue.html">
+            <a href="queue_1.html">
                 <i class="fa fa-files-o fa-lg"></i> Maintain Queue
             </a>
         </li>

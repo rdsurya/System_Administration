@@ -138,7 +138,7 @@
         $(document).ready(function () {
             
             $("#userMain").load("user_main.jsp");
-            //$("#userTable").load("user_table.jsp");
+            $("#userTable").load("user_table.jsp");
             
             $("#roleMain").load("role_main.jsp");
             $("#roleTable").load("role_table.jsp");

@@ -118,7 +118,10 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="textinput">Health Facility</label>
                                     <div class="col-md-8">
-                                        <input id="UM_hfc"  type="text" placeholder="User ID" class="form-control input-md">
+                                        <input id="UM_hfc"  type="text" placeholder="Health Facility" class="form-control input-md">
+                                        <div id="UM_hfc_match">
+                                            <!--search result-->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -131,7 +134,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="textinput">Password</label>
                                     <div class="col-md-8">
-                                        <input id="UM_password"  type="password" placeholder="User ID" class="form-control input-md" maxlength="10">
+                                        <input id="UM_password"  type="password" placeholder="Password" class="form-control input-md" maxlength="10">
                                     </div>
                                 </div>
                             </div>
@@ -141,7 +144,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="textinput">Retype Password</label>
                                     <div class="col-md-8">
-                                        <input id="UM_password2"  type="password" placeholder="User ID" class="form-control input-md" maxlength="10">
+                                        <input id="UM_password2"  type="password" placeholder="Password" class="form-control input-md" maxlength="10">
                                     </div>
                                 </div>
                             </div>
@@ -360,8 +363,7 @@
                                     <label class="col-md-4 control-label" for="textinput">User ID Status</label>
                                     <div class="col-md-8">
                                         <select id="UM_userIDStatus" class="form-control input-md">
-                                            <option value="">-- Select status --</option>
-                                            <option value="">Active</option>
+                                            <option value="0">Active</option>
                                             <option value="1">Terminated</option>
                                             <option value="2">Suspended</option>
                                         </select>
@@ -399,6 +401,9 @@
     w3IncludeHTML();
 
     $(document).ready(function () {
+        
+        var isHFCselected = false;
+        var selectedHFC = "";
 
         $('#UM_dob').datepicker({
             changeMonth: true,
@@ -423,11 +428,22 @@
             document.getElementById("UM_form").reset();
         }
 
+        $('#UM_btnAddNew').on('click', function () {
+
+            UM_reset();
+            $('#UM_endDate').datepicker('option', 'minDate', null);
+            isHFCselected = false;
+            selectedHFC = "";
+        });
+
         $('#btnReset').on('click', function () {
             UM_reset();
         });
 
         $('#UM_brnAdd').on('click', function () {
+
+            var startDateX = $('#UM_startDate').datepicker('getDate');
+            var endDateX = $('#UM_endDate').datepicker('getDate');
 
             var name = $('#UM_name').val();
             var title = $('#UM_title').val();
@@ -453,7 +469,11 @@
             var endDate = $('#UM_endDate').val();
             var userIDStatus = $('#UM_userIDStatus').val();
 
+            $('#UM_detail').css('overflow', 'auto');
+
             if (name === "") {
+                //$('#UM_detail').modal('hide');
+
                 bootbox.alert("Fill in the staff name");
 
             } else if (title === "") {
@@ -489,12 +509,16 @@
             } else if (mobilePhone === "") {
                 bootbox.alert("Fill in the staff mobile phone number");
 
-            } else if (startDate === "" || endDate) {
+            } else if (startDate === "" || endDate === "") {
                 bootbox.alert("Select the start date and end date of the staff");
 
-            }else if (ValidateEmail(email) === false) {
+            } else if (ValidateEmail(email) === false) {
                 bootbox.alert("Invalid email address");
                 $('#UM_email').val("");
+
+            }else if (isHFCselected === false && selectedHFC !== hfc) {
+                bootbox.alert("Choose existing health facility");
+                $('#UM_hfc').val("");
 
             } else if (password.length < 5) {
                 bootbox.alert("Password is too short. Password must have at least 6 characters");
@@ -506,33 +530,56 @@
                 $('#UM_password').val("");
                 $('#UM_password2').val("");
 
-            }else if (officeTel !== "" && validatePhonenumber(officeTel) === false) {
+            } else if (officeTel !== "" && validatePhonenumber(officeTel) === false) {
                 bootbox.alert("Invalid office telephone number. Only numbers and +, - signs are allowed.");
                 $('#UM_officeTel').val("");
 
-            }else if (faxNo !== "" && validatePhonenumber(faxNo) === false) {
+            } else if (faxNo !== "" && validatePhonenumber(faxNo) === false) {
                 bootbox.alert("Invalid fax number. Only numbers and +, - signs are allowed.");
                 $('#UM_fax').val("");
 
-            }else if (homeTel !== "" && validatePhonenumber(homeTel) === false) {
+            } else if (homeTel !== "" && validatePhonenumber(homeTel) === false) {
                 bootbox.alert("Invalid home telephone number. Only numbers and +, - signs are allowed.");
                 $('#UM_homeTel').val("");
 
-            }else if ( validatePhonenumber(mobilePhone) === false) {
+            } else if (validatePhonenumber(mobilePhone) === false) {
                 bootbox.alert("Invalid mobile phone number. Only numbers and +, - signs are allowed.");
                 $('#UM_mobile').val("");
 
-            }  else {
+            } else if (startDateX > endDateX) {
+                bootbox.alert("End date must be later than start date");
+                $('#UM_endDate').datepicker('option', 'minDate', startDateX);
+                $('#UM_endDate').val("");
+
+            } else {
 
                 var data = {
-                    masterCode: masterCode,
-                    masterName: masterName,
-                    masterSource: masterSource,
-                    status: status
+                    name: name,
+                    title: title,
+                    icNo: icNo,
+                    email: email,
+                    userID: userID,
+                    hfc: hfc,
+                    password: password,
+                    dob: dob,
+                    gender: gender,
+                    occupation: occupation,
+                    nationality: nationality,
+                    officeTel: officeTel,
+                    homeTel: homeTel,
+                    mobilePhone: mobilePhone,
+                    faxNo: faxNo,
+                    userIDCategory: userIDCategory,
+                    userType: userType,
+                    userGroup: userGroup,
+                    userClass: userClass,
+                    startDate: startDate,
+                    endDate: endDate,
+                    userIDStatus: userIDStatus
                 };
 
                 $.ajax({
-                    url: "master_lookup_insert.jsp",
+                    url: "user_insert.jsp",
                     type: "post",
                     data: data,
                     timeout: 10000,
@@ -540,9 +587,9 @@
 
                         if (datas.trim() === 'Success') {
 
-                            $('#masterTable').load('master_lookup_table_1.jsp');
+                            $('#userTable').load('user_table.jsp');
                             $('#UM_detail').modal('hide');
-                            bootbox.alert("New master lookup code is added");
+                            bootbox.alert("New user is added");
                             UM_reset();
 
                         } else if (datas.trim() === 'Failed') {
@@ -553,8 +600,7 @@
 
                         } else {
                             bootbox.alert(datas.trim());
-                            document.getElementById("masterCode").value = "";
-                            $('#masterCode').focus();
+
                         }
 
                     },
@@ -567,22 +613,43 @@
 
         });
 
-        $('#UM_btnAddNew').on('click', function () {
+        $('#UM_hfc').on('keyup', function () {
 
-            $.ajax({
-                url: 'master_lookup_getMasterCode.jsp',
-                type: 'POST',
-                timeout: 5000,
-                success: function (data) {
+            var input = $('#UM_hfc').val();
 
-                    $('#masterCode').val(data.trim());
-                },
-                error: function (err) {
+            if (input.length > 0) {
+                
+                var data = { input : input};
 
-                    console.log("Ajax Is Not Success");
-                }
-            });
+                $.ajax({
+                    url: "UM_result.jsp",
+                    type: 'POST',
+                    data: data,
+                    timeout: 10000,
+                    success: function (data) {
+                        $('#UM_hfc_match').html(data);
+                        $('#UM_hfc_matchlist li').on('click', function () {
+
+                            $('#UM_hfc').val($(this).text());
+                            $('#UM_hfc_match').text('');
+                            isHFCselected = true;
+                            selectedHFC = $('#UM_hfc').val();
+
+                        });
+                    },
+                    error: function () {
+                        $('#UM_hfc_match').text('Problem!');
+                    }
+
+                });
+
+            } else {
+                $('#UM_hfc_match').text('');
+            }
+
         });
+
+
 
 
     });

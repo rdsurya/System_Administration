@@ -323,7 +323,7 @@
             var status = $('#HFM_status').val();
             var establishDate = $('#HFM_establishedDate').val();
 
-            
+            $('#HFM_detail').css('overflow', 'auto');
 
             if (hfcName.trim() === "" || hfcName === null) {
                 bootbox.alert("Fill in the health facility name");

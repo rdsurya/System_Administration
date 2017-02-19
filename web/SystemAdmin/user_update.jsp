@@ -1,6 +1,6 @@
 <%-- 
-    Document   : user_insert
-    Created on : Feb 17, 2017, 8:35:31 PM
+    Document   : user_update
+    Created on : Feb 20, 2017, 1:32:17 AM
     Author     : user
 --%>
 <%@page import="Formatter.DateFormatter"%>
@@ -13,7 +13,6 @@
 
 <%           
     Conn conn = new Conn();
-    String creator = session.getAttribute("USER_ID").toString();
     String name  = request.getParameter("name");
     String title  = request.getParameter("title");
     String icNo  = request.getParameter("icNo");
@@ -38,24 +37,18 @@
     String userIDStatus  = request.getParameter("userIDStatus");
     
     
+        RMIConnector rmic = new RMIConnector();
     
-    String sqlCheck = "SELECT user_id from adm_users WHERE user_id = '"+userID+"' limit 1 ";
-    ArrayList<ArrayList<String>> duplicate = conn.getData(sqlCheck);
-    
-     RMIConnector rmic = new RMIConnector();
-    
-    if(duplicate.size() > 0)
-    {
-        out.print("Sorry, the User ID '"+userID+"' is already used. Please enter different ID.");
-    }
-    else {
         
         dob = DateFormatter.formatDate(dob, "dd/MM/yyyy", "yyyy-MM-dd HH:mm:ss.ms");
         startDate = DateFormatter.formatDate(startDate, "dd/MM/yyyy", "yyyy-MM-dd HH:mm:ss.ms");
         endDate = DateFormatter.formatDate(endDate, "dd/MM/yyyy", "yyyy-MM-dd HH:mm:ss.ms");
     
-        String sqlInsert = "INSERT INTO adm_users (user_id, health_facility_code, user_name, password, occupation_code, birth_date, sex_code, new_icno, home_phone, office_phone, mobile_phone, fax_no, email, id_category_code, start_date, end_date, title, nationality_code, user_type, user_group, user_classification_code, status, created_by, created_date) "+
-                            "VALUES('"+userID+"', '"+hfc+"', '"+name+"', '"+password+"', '"+occupation+"', '"+dob+"', '"+gender+"', '"+icNo+"', '"+homeTel+"', '"+officeTel+"', '"+mobilePhone+"', '"+faxNo+"', '"+email+"', '"+userIDCategory +"', '"+startDate +"', '"+endDate +"', '"+title +"', '"+nationality+"', '"+userType+"', '"+userGroup+"', '"+userClass+"', '"+userIDStatus+"', '"+creator+"', now())";
+        String sqlInsert = "UPDATE adm_users set health_facility_code='"+hfc+"', user_name='"+name+"', password='"+password+"', occupation_code='"+occupation+"', "
+                + "birth_date='"+dob+"', sex_code ='"+gender+"', new_icno='"+icNo+"', home_phone='"+homeTel+"', office_phone='"+officeTel+"', "
+                + "mobile_phone ='"+mobilePhone+"', fax_no ='"+faxNo+"', email='"+email+"', id_category_code='"+userIDCategory +"', start_date='"+startDate +"', end_date='"+endDate +"',"
+                + " title='"+title +"', nationality_code='"+nationality+"', user_type='"+userType+"', user_group ='"+userGroup+"', user_classification_code='"+userClass+"', status='"+userIDStatus+"' "
+                + "WHERE user_id ='"+userID+"'";
 
         boolean isInsert = rmic.setQuerySQL(conn.HOST, conn.PORT, sqlInsert);
 
@@ -67,5 +60,6 @@
     
     
     
-    }
+    
 %>
+

@@ -175,9 +175,15 @@
                                     <div class="col-md-8">
                                         <select id="UM_gender" class="form-control input-md">
                                             <option value="">-- Select gender --</option>
-                                            <option value="L">Male</option>
-                                            <option value="P">Female</option>
-                                            <option value="R">Other</option>
+                                            <%
+                                                String sqlGender = "Select detail_reference_code, description FROM adm_lookup_detail WHERE master_reference_code = '0041'";
+                                                ArrayList<ArrayList<String>> dataGender = conn.getData(sqlGender);
+
+                                                for (int i = 0; i < dataGender.size(); i++) {
+
+                                            %><option value="<%=dataGender.get(i).get(0)%>"><%=dataGender.get(i).get(1)%></option><%
+                                                }
+                                            %>  
                                         </select>
                                     </div>
                                 </div>
@@ -382,7 +388,7 @@
             <div class="modal-footer">
                 <div class="btn-group btn-group-justified" role="group" aria-label="group button">
                     <div class="btn-group" role="group">
-                        <button type="submit" class="btn btn-success btn-block btn-lg" role="button" id="UM_brnAdd">Add</button>
+                        <button type="submit" class="btn btn-success btn-block btn-lg" role="button" id="UM_btnAdd">Add</button>
                     </div>
                     <div class="btn-group" role="group">
                         <button type="reset" id="btnReset" class="btn btn-default btn-block btn-lg" data-dismiss="modal" role="button" >Cancel</button>
@@ -440,7 +446,7 @@
             UM_reset();
         });
 
-        $('#UM_brnAdd').on('click', function () {
+        $('#UM_btnAdd').on('click', function () {
 
             var startDateX = $('#UM_startDate').datepicker('getDate');
             var endDateX = $('#UM_endDate').datepicker('getDate');
@@ -516,7 +522,7 @@
                 bootbox.alert("Invalid email address");
                 $('#UM_email').val("");
 
-            }else if (isHFCselected === false && selectedHFC !== hfc) {
+            }else if (isHFCselected === false || selectedHFC !== hfc) {
                 bootbox.alert("Choose existing health facility");
                 $('#UM_hfc').val("");
 
@@ -552,6 +558,9 @@
                 $('#UM_endDate').val("");
 
             } else {
+                
+                var array = hfc.split("|");
+                hfc = array[0].trim();
 
                 var data = {
                     name: name,

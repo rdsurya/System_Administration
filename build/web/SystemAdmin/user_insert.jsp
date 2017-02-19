@@ -28,7 +28,7 @@
     String officeTel  = request.getParameter("officeTel");
     String homeTel  = request.getParameter("homeTel");
     String mobilePhone  = request.getParameter("mobilePhone");
-    String faxNo  = request.getParameter("faxNo ");
+    String faxNo  = request.getParameter("faxNo");
     String userIDCategory  = request.getParameter("userIDCategory");
     String userType  = request.getParameter("userType");
     String userGroup  = request.getParameter("userGroup");

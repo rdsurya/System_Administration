@@ -62,6 +62,10 @@
                                             <a href="#UAM_tab2" data-toggle="tab">
                                                 ROLE </a>
                                         </li>
+                                         <li>
+                                            <a href="#UAM_tab3" data-toggle="tab">
+                                                ASSIGN ROLE TO USER </a>
+                                        </li>
 
                                     </ul>
                                     <!-- tab content -->
@@ -84,6 +88,16 @@
                                                 <div id="roleMain">
                                                 </div>
                                                 <div id="roleTable">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="tab-pane" id="UAM_tab3">
+
+                                            <div id="accessrole">
+                                                <div id="accessRoleMain">
+                                                </div>
+                                                <div id="accessRoleTable">
                                                 </div>
                                             </div>
 
@@ -143,6 +157,8 @@
             $("#roleMain").load("role_main.jsp");
             $("#roleTable").load("role_table.jsp");
             
+             $("#accessRoleMain").load("accessRole_main.jsp");
+            $("#accessRoleTable").load("accessRole_table.jsp");
 
            
         });

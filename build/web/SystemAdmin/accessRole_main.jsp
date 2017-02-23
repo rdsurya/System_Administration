@@ -175,13 +175,14 @@
                     
                     var data = {
                         userCode : user,
+                        roleCode : role,
                         disciplineCode : discipline,
                         subdisciplineCode : subdiscipline,
                         status : status
                     };
 
                     $.ajax({
-                        url: "assignRole_insert.jsp",
+                        url: "accessRole_insert.jsp",
                         type: "post",
                         data: data,
                         timeout: 10000,
@@ -189,7 +190,7 @@
 
                             if (datas.trim() === 'Success') {
 
-                                $('#assignRoleTable').load('assignDiscipline_table.jsp');
+                                $('#assignRoleTable').load('accessRole_table.jsp');
                                 $('#ARM_detail').modal('hide');
                                 //alert("Insertion Success");
                                 bootbox.alert({

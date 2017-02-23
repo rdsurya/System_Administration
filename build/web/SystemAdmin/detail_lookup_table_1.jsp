@@ -400,7 +400,9 @@
 
 <script type="text/javascript" charset="utf-8">
     $(document).ready(function () {
-        $('#THE_detailTable').DataTable();
+        $('#THE_detailTable').DataTable({
+            deferRender : true
+        });
 
         $('#DLT_startDate').datepicker({
             changeYear: true,

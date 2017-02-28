@@ -280,7 +280,9 @@
 
 <script type="text/javascript" charset="utf-8">
     $(document).ready(function () {
-        $('#THE_roleTable').DataTable();
+        $('#THE_roleTable').DataTable({
+            deferRender : true
+        });
     });
 </script>
 

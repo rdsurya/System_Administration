@@ -27,8 +27,8 @@
 <tbody>
 
     <%
-        //                      0           1           2           3           4                   5               6                   7               8
-        String sql = "Select ua.user_id, user_name, ua.role_code, role_name, d.discipline_cd, discipline_name, subdiscipline_cd, subdiscipline_name, ifnull(ua.status, '') "
+        //                      0           1           2           3           4                   5               6                   7               8                       9
+        String sql = "Select ua.user_id, user_name, ua.role_code, role_name, ua.discipline_code, discipline_name, ua.subdiscipline_code, subdiscipline_name, ifnull(ua.status, ''), u.health_facility_code "
                 + "FROM adm_users u join adm_user_access_role ua using(user_id) "
                 + "join adm_role r on ua.role_code = r.role_code or ua.role_code = role_name "
                 + "left join adm_discipline d on discipline_code = d.discipline_cd "
@@ -78,56 +78,73 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times fa-lg"></i></button>
-                <h3 class="modal-title" id="lineModalLabel">Update Subdiscipline</h3>
+                <h3 class="modal-title" id="lineModalLabel">Update User Access</h3>
             </div>
             <div class="modal-body">
 
                 <!-- content goes here -->
                 <form autocomplete="off" class="form-horizontal">
 
-                    <!-- Text input-->
+                     <!-- Text input-->
                     <div class="form-group">
-                        <label class="col-md-4 control-label" for="textinput">Discipline Code</label>
+                        <label class="col-md-4 control-label" for="textinput">User</label>
                         <div class="col-md-8">
-                            <input id="ART_disciplineCode" name="textinput" type="text" class="form-control input-md" readonly>
+                            <input type="text"  class="form-control" id="ART_user" placeholder="User" readonly="true">
+                            
                         </div>
                     </div>
 
                     <!-- Text input-->
                     <div class="form-group">
-                        <label class="col-md-4 control-label" for="textinput">Subdiscipline Code</label>
+                        <label class="col-md-4 control-label" for="textinput">Role</label>
                         <div class="col-md-8">
-                            <input id="ART_subdisciplineCode"  type="text"  class="form-control input-md" readonly>
-                        </div>
-                    </div>    
+                            <select id="ART_role" class="form-control input-md">
+                                            <option value="">-- Select role --</option>
+                                            <%
+                                                String sqlRole = "Select role_code, role_name FROM adm_role";
+                                                ArrayList<ArrayList<String>> dataRole = conn.getData(sqlRole);
 
-                    <!-- Text input-->
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="textinput">Subdiscipline Name</label>
-                        <div class="col-md-8">
-                            <input id="ART_subdisciplineName" class="form-control" maxlength="100"  >
-                        </div>
-                    </div>
+                                                for (int i = 0; i < dataRole.size(); i++) {
 
-                    <!-- Text input-->
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="textinput">Type</label>
-                        <div class="col-md-8">
-                            <input id="ART_type" class="form-control" type="text" placeholder="Subdiscipline type (Optional)" maxlength="30" >
+                                            %><option value="<%=dataRole.get(i).get(0)%>"><%=dataRole.get(i).get(1)%></option><%
+                                                }
+                                            %>
+
+                            </select>
                         </div>
                     </div>
-
-                   
-                    <!-- Text input-->
+                    
+                     <!-- Text input-->
                     <div class="form-group">
+                        <label class="col-md-4 control-label" for="textinput">Discipline</label>
+                        <div class="col-md-8">
+                            <select id="ART_discipline" class="form-control input-md">
+                                <option value="">-- Select discipline--</option>
+                            </select>
+                        </div>
+                    </div>
+                     
+                     <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="textinput">Subdiscipline</label>
+                        <div class="col-md-8">
+                            <select id="ART_subdiscipline" class="form-control input-md">
+                                <option value="">-- Select subdiscipline--</option>
+                            </select>
+                        </div>
+                    </div> 
+                     
+                    
+                     <div class="form-group">
                         <label class="col-md-4 control-label" for="textinput">Status</label>
                         <div class="col-md-8">
-                            <select class="form-control" name="tstatus" id="ART_status">
+                            <select class="form-control"  id="ART_status">
                                 <option  value="0" >Active</option>
                                 <option  value="1" >Inactive</option>
                             </select>
                         </div>
                     </div>
+
                     
                 </form>
                 <!-- content goes here -->
@@ -152,8 +169,10 @@
 
 
 <script type="text/javascript" charset="utf-8">
+    
+    var ART_G_hfcCode;
 
-    $('#subdisciplineTable').off('click', '#THE_subdisciplineTable #ART_btnUpdate').on('click', '#THE_subdisciplineTable #ART_btnUpdate', function (e) {
+    $('#accessRoleTable').off('click', '#THE_accessRoleTable #ART_btnUpdate').on('click', '#THE_accessRoleTable #ART_btnUpdate', function (e) {
         e.preventDefault();
         
         //get the row value
@@ -161,64 +180,74 @@
         var rowData = row.find("#ART_hidden").val();
         var arrayData = rowData.split("|");
         //assign into seprated val
-        var disciplineCode = arrayData[0], subdisciplineCode = arrayData[2], subdisciplineName = arrayData[3], status = arrayData[5], type = arrayData[4];
+        var userID = arrayData[0], userName = arrayData[1], roleCode = arrayData[2], disciplineCode = arrayData[4], status = arrayData[8], subdisciplineCode = arrayData[6], hfcCode = arrayData[9];
         //set value in input on the top
-        $('#ART_disciplineCode').val(disciplineCode);
-        $('#ART_subdisciplineCode').val(subdisciplineCode);
-        $('#ART_subdisciplineName').val(subdisciplineName);
-        $('#ART_type').val(type);
+        ART_G_hfcCode = hfcCode;
+        ART_createDisciplineList(disciplineCode);
+        ART_createSubList(disciplineCode, subdisciplineCode);
+        
+        $('#ART_user').val(userID +" | "+ userName);
+        $('#ART_role').val(roleCode);
+        
+        $('#ART_subdiscipline').val(subdisciplineCode);
        
         if (status === '1')
             $('#ART_status').val(1);
         else
             $('#ART_status').val(0);
 
-
-
-        console.log(arrayData);
+        
     });
 
 
     $('#ART_btnUpdateConfirm').on('click', function () {
 
-        var disciplineCode = $('#ART_disciplineCode').val();
-        var subdisciplineCode = $('#ART_subdisciplineCode').val();
-        var subdisciplineName = $('#ART_subdisciplineName').val();
-        var type = $('#ART_type').val();
+        var userID = $('#ART_user').val();
+        var roleCode = $('#ART_role').val();
+        var disciplineCode = $('#ART_discipline').val();
+        var subdisciplineCode = $('#ART_subdiscipline').val();
         var status = $('#ART_status').val();
 
-        if (subdisciplineName === "" || subdisciplineName === null) {
-            alert("Please fill in the name");
-            $('#ART_subdisciplineName').focus();
-
+        if (roleCode === "" || roleCode === null) { 
+            bootbox.alert("Please choose the role");
+            
+        }else if (disciplineCode === "" || disciplineCode === null) {
+            bootbox.alert("Select the discipline");
+            
+        } else if (subdisciplineCode === "" || subdisciplineCode === null) {
+            bootbox.alert("Select the subdiscipline");
+            
         } else if (status !== '1' && status !== '0') {
-            alert("Please choose the status");
-            $('#ART_status').focus();
+            bootbox.alert("Please choose the status");
+            
 
         } else {
+            
+            var array = userID.split("|");
+            userID = array[0].trim();
 
             var data = {
-                disciplineCode: disciplineCode,
-                subdisciplineCode: subdisciplineCode,
-                subdisciplineName: subdisciplineName,
-                type: type,
-                status: status
+                userID : userID,
+                roleCode : roleCode,
+                disciplineCode : disciplineCode,
+                subdisciplineCode : subdisciplineCode,
+                status : status
             };
 
             $.ajax({
-                url: "subdiscipline_update.jsp",
-                type: "post",
+                url: "accessRole_update.jsp",
+                type : "post",
                 data: data,
                 timeout: 10000,
                 success: function (datas) {
                     console.log(datas.trim());
                     if (datas.trim() === 'Success') {
-                        $('#subdisciplineTable').load('subdiscipline_table.jsp');
+                        $('#accessRoleTable').load('accessRole_table.jsp');
                         $(".modal-backdrop").hide();
                         //alert("Update Success");
                         
                         bootbox.alert({
-                                    message: "Subdiscipline is updated",
+                                    message: "Access role is updated",
                                     title: "Process Result",
                                     backdrop: true
                                 });
@@ -239,18 +268,18 @@
 
     });
 
-    $('#subdisciplineTable').off('click', '#THE_subdisciplineTable #ART_btnDelete').on('click', '#THE_subdisciplineTable #ART_btnDelete', function (e) {
+    $('#accessRoleTable').off('click', '#THE_accessRoleTable #ART_btnDelete').on('click', '#THE_accessRoleTable #ART_btnDelete', function (e) {
         e.preventDefault();
 
         var row = $(this).closest("tr");
         var rowData = row.find("#ART_hidden").val();
         var arrayData = rowData.split("|");
         //assign into seprated val
-        var disciplineCode = arrayData[0], subdisciplineCode = arrayData[2];
-        console.log(arrayData);
+        var userID = arrayData[0], roleCode = arrayData[2];
+        
         
         bootbox.confirm({
-            message: "Are you sure want to delete this item? " + disciplineCode + "-" + subdisciplineCode,
+            message: "Are you sure want to delete this role assignment? " + userID + "-" + roleCode,
             title: "Delete Item?",
             buttons: {
                 confirm: {
@@ -267,19 +296,19 @@
                 if (result === true) {
                     
                     var data = {
-                        subdisciplineCode: subdisciplineCode,
-                        disciplineCode: disciplineCode
+                        roleCode: roleCode,
+                        userID: userID
                     };
 
                     $.ajax({
                         url: "subdiscipline_delete.jsp",
-                        type: "post",
+                        subdisciplineCode: "post",
                         data: data,
                         timeout: 10000, // 10 seconds
                         success: function (datas) {
 
                             if (datas.trim() === 'Success') {
-                                $('#subdisciplineTable').load('subdiscipline_table.jsp');
+                                $('#accessRoleTable').load('accessRole_table.jsp');
                                 //alert("Delete Success");
                                  bootbox.alert({
                                     message: "A subdiscipline is deleted",
@@ -308,6 +337,59 @@
        
 
     });
+    
+    
+    $('#ART_discipline').on('change', function(){
+            
+           ART_createSubList($(this).val(), "");
+        });
+    
+    
+    function ART_createDisciplineList(disciplineCode){
+            var data = {process : "discipline", hfc : ART_G_hfcCode};
+            $.ajax({
+                url: "ARM_result.jsp",
+                type: "post",
+                data: data,
+                timeout: 10000,
+                success: function (datas) {
+
+                   $('#ART_discipline').html(datas);
+                   $('#ART_discipline').val(disciplineCode);
+
+                },
+                error: function (err) {
+                    console.log("Ajax Is Not Success");
+                }
+
+            });
+            
+    }
+    
+    
+    function ART_createSubList(disciplineCode, subdisciplineCode){
+        
+        var data = {process : "subdiscipline",
+                        discipline : disciplineCode,
+                        hfc : ART_G_hfcCode
+                        };
+            
+            $.ajax({
+                url: "ARM_result.jsp",
+                type: 'POST',
+                data: data,
+                timeout: 10000,
+                success: function (data) {
+                    
+                    $('#ART_subdiscipline').html(data);
+                    $('#ART_subdiscipline').val(subdisciplineCode);
+                        
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                        
+                    }
+            });
+    }
 
 
 
@@ -321,7 +403,9 @@
 
 <script type="text/javascript" charset="utf-8">
     $(document).ready(function () {
-        $('#THE_subdisciplineTable').DataTable();
+        $('#THE_accessRoleTable').DataTable({
+            deferRender : true
+        });
 
         
     });

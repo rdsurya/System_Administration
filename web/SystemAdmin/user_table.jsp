@@ -454,7 +454,9 @@
 
 <script type="text/javascript" charset="utf-8">
     $(document).ready(function () {
-        $('#THE_userTable').DataTable();
+        $('#THE_userTable').DataTable({
+            deferRender : true
+        });
 
         $('#UT_dob').datepicker({
             changeMonth: true,

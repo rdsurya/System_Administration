@@ -22,7 +22,7 @@
         if (search.size() > 0)
         {
         %>
-        <ul id="ARM_user_matchlist" style="width: 300px; height: 200px; overflow: auto">
+        <ul id="ARM_user_matchlist" style="width: 300px; height: 100%; max-height: 200px; overflow: auto">
         <% 
             for (int i = 0; i < search.size(); i++)
             {
@@ -49,12 +49,15 @@
         
             %>  
                 <option  value="" >-- Select the discipline --</option>
-                <option value="-"> - </option>>
+                <option value="-"> - </option>
             <%
             
         }else{
         
-            %><option  value="" >-- Select the discipline --</option><%
+            %>
+            <option  value="" >-- Select the discipline --</option>
+            <option value="-"> - </option>
+            <%
             
              for(int i =0; i < list.size(); i++){
         
@@ -73,15 +76,21 @@
         
         if(list.size() <= 0){
         
-            %><option value="-"> - </option>><%
+            %>
+            <option  value="" >-- Select the subdiscipline --</option>
+            <option value="-"> - </option>
+            <%
             
         }else{
         
-            %><option  value="" >-- Select the subdiscipline --</option><%
+            %>
+            <option  value="" >-- Select the subdiscipline --</option>
+            <option value="-"> - </option>
+            <%
             
              for(int i =0; i < list.size(); i++){
         
-            %><option value="<%=list.get(i).get(0)%>"><%=list.get(i).get(1)%></option>><%
+            %><option value="<%=list.get(i).get(0)%>"><%=list.get(i).get(1)%></option><%
         
             }
         

@@ -21,7 +21,8 @@
     String userID = (String)session.getAttribute("USER_ID");
     
     
-    String sqlCheck = "SELECT page_code FROM adm_page WHERE page_code = '"+pageCode+"' AND module_code = '"+moduleCode+"' AND system_code = '"+systemCode+"' LIMIT 1 ";
+   // String sqlCheck = "SELECT page_code FROM adm_page WHERE page_code = '"+pageCode+"' AND module_code = '"+moduleCode+"' AND system_code = '"+systemCode+"' LIMIT 1 ";
+    String sqlCheck = "SELECT page_code FROM adm_page WHERE page_code = '"+pageCode+"' LIMIT 1 ";
     ArrayList<ArrayList<String>> duplicate = conn.getData(sqlCheck);
     
     

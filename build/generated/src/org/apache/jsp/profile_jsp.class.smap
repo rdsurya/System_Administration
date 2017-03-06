@@ -1,0 +1,16 @@
+SMAP
+profile_jsp.java
+JSP
+*S JSP
+*F
++ 0 profile.jsp
+profile.jsp
++ 1 validateSession.jsp
+SystemAdmin/validateSession.jsp
+*L
+5,9:54
+5#1,4:62
+8,3:65
+10:68
+13#0,176:69
+*E

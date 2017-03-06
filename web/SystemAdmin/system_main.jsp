@@ -144,7 +144,7 @@
                                 SM_reset();
                                 
                             } else{
-                                bootboxalert(datas.trim());
+                                bootbox.alert(datas.trim());
                                 $('#systemCode').val("");
                                 $('#systemCode').focus();
                             }

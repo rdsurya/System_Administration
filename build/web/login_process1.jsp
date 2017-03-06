@@ -24,7 +24,7 @@
       
     
     
-    String sql2 = "SELECT a.*,b.* FROM adm_user a inner join adm_user_access_role b on b.user_id = a.user_id WHERE USER_ID = '"+user_id+"' ";
+   // String sql2 = "SELECT a.*,b.* FROM adm_user a inner join adm_user_access_role b on b.user_id = a.user_id WHERE USER_ID = '"+user_id+"' ";
     String sql3 = "select a.*,b.* from adm_user a JOIN adm_user_access_role b ON b.`USER_ID` = a.`USER_ID` where a.`USER_ID`='"+user_id+"' ;";
     ArrayList<ArrayList<String>> dataStaff = conn.getData(sql3);
 

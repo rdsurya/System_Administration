@@ -24,8 +24,8 @@
 <tbody>
 
     <%
-        //                      0       1                       2           3           4               5                                6        7       8               9           10          11          12      13                  14                                              15                                        16          17              18          19          20                      21      22
-        String sql = " SELECT user_id, health_facility_code, user_name, password, occupation_code, DATE_FORMAT(birth_date,'%d/%m/%Y'), sex_code, new_icno, home_phone, office_phone, mobile_phone, a.fax_no, a.email, id_category_code, ifnull(DATE_FORMAT(start_date,'%d/%m/%Y'), '') ,ifnull(DATE_FORMAT(end_date,'%d/%m/%Y'), '') , title, nationality_code, user_type, user_group, user_classification_code, status, hfc_name "
+        //                      0       1                       2           3           4               5                                6        7       8               9           10          11          12      13                  14                                              15                                        16          17              18          19          20                          21                  22          23
+        String sql = " SELECT user_id, health_facility_code, user_name, password, occupation_code, DATE_FORMAT(birth_date,'%d/%m/%Y'), sex_code, new_icno, home_phone, office_phone, mobile_phone, a.fax_no, a.email, id_category_code, ifnull(DATE_FORMAT(start_date,'%d/%m/%Y'), '') ,ifnull(DATE_FORMAT(end_date,'%d/%m/%Y'), '') , title, nationality_code, user_type, user_group, user_classification_code, ifnull(status, '0'), hfc_name, mother_name "
                 + "FROM adm_users a join adm_health_facility b on health_facility_code = hfc_cd ";
         ArrayList<ArrayList<String>> dataUser = conn.getData(sql);
 
@@ -90,9 +90,9 @@
                             <div class="col-md-6">
                                 <!-- Text input-->
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label" for="textinput">Name</label>
+                                    <label class="col-md-4 control-label" for="textinput">Name *</label>
                                     <div class="col-md-8">
-                                        <input id="UT_name" type="text" placeholder="Staff Name" class="form-control input-md" maxlength="30">
+                                        <input id="UT_name" type="text" placeholder="Insert Staff Name" class="form-control input-md" maxlength="30">
                                     </div>
                                 </div>
                             </div>
@@ -100,7 +100,7 @@
                             <div class="col-md-6">
                                 <!-- Text input-->
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label" for="textinput">Title</label>
+                                    <label class="col-md-4 control-label" for="textinput">Title *</label>
                                     <div class="col-md-8">
                                         <select id="UT_title" class="form-control input-md">
                                             <option value="">-- Select title --</option>
@@ -126,9 +126,9 @@
                             <div class="col-md-6">
                                 <!-- Text input-->
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label" for="textinput">IC/ID No</label>
+                                    <label class="col-md-4 control-label" for="textinput">IC/ID No *</label>
                                     <div class="col-md-8">
-                                        <input id="UT_icno"  type="text" placeholder=" Staff IC or ID Number" class="form-control input-md" maxlength="30">
+                                        <input id="UT_icno"  type="text" placeholder="Insert Staff IC or ID Number" class="form-control input-md" maxlength="30">
                                     </div>
                                 </div>
                             </div>
@@ -136,9 +136,9 @@
                             <div class="col-md-6">
                                 <!-- Text input-->
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label" for="textinput">Email</label>
+                                    <label class="col-md-4 control-label" for="textinput">Email *</label>
                                     <div class="col-md-8">
-                                        <input id="UT_email"  type="text" placeholder="satff.email@example.com" class="form-control input-md" maxlength="100">
+                                        <input id="UT_email"  type="text" placeholder="Insert staff.email@example.com" class="form-control input-md" maxlength="100">
                                     </div>
                                 </div>
                             </div>
@@ -156,7 +156,7 @@
                             <div class="col-md-6">
                                 <!-- Text input-->
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label" for="textinput">User ID</label>
+                                    <label class="col-md-4 control-label" for="textinput">User ID *</label>
                                     <div class="col-md-8">
                                         <input id="UT_userID"  type="text" placeholder="User ID" class="form-control input-md" maxlength="30" readonly="true">
                                     </div>
@@ -166,9 +166,9 @@
                             <div class="col-md-6">
                                 <!-- Text input-->
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label" for="textinput">Health Facility</label>
+                                    <label class="col-md-4 control-label" for="textinput">Health Facility *</label>
                                     <div class="col-md-8">
-                                        <input id="UT_hfc"  type="text" placeholder="Health Facility" class="form-control input-md">
+                                        <input id="UT_hfc"  type="text" placeholder="Search Health Facility" class="form-control input-md">
                                         <div id="UT_hfc_match">
                                             <!--search result-->
                                         </div>
@@ -182,7 +182,7 @@
                             <div class="col-md-6">
                                 <!-- Text input-->
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label" for="textinput">Password</label>
+                                    <label class="col-md-4 control-label" for="textinput">Password *</label>
                                     <div class="col-md-8">
                                         <input id="UT_password"  type="password" placeholder="Password" class="form-control input-md" maxlength="10">
                                     </div>
@@ -192,7 +192,7 @@
                             <div class="col-md-6">
                                 <!-- Text input-->
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label" for="textinput">Retype Password</label>
+                                    <label class="col-md-4 control-label" for="textinput">Retype Password *</label>
                                     <div class="col-md-8">
                                         <input id="UT_password2"  type="password" placeholder="Password" class="form-control input-md" maxlength="10">
                                     </div>
@@ -211,7 +211,7 @@
                             <div class="col-md-6">
                                 <!-- Text input-->
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label" for="textinput">Date of Birth</label>
+                                    <label class="col-md-4 control-label" for="textinput">Date of Birth *</label>
                                     <div class="col-md-8">
                                         <input id="UT_dob"  type="text" placeholder="DD/MM/YYYY" class="form-control input-md" readonly="true">
                                     </div>
@@ -221,7 +221,7 @@
                             <div class="col-md-6">
                                 <!-- Text input-->
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label" for="textinput">Gender</label>
+                                    <label class="col-md-4 control-label" for="textinput">Gender *</label>
                                     <div class="col-md-8">
                                         <select id="UT_gender" class="form-control input-md">
                                             <option value="">-- Select gender --</option>
@@ -246,7 +246,7 @@
                             <div class="col-md-6">
                                 <!-- Text input-->
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label" for="textinput">Occupation</label>
+                                    <label class="col-md-4 control-label" for="textinput">Occupation *</label>
                                     <div class="col-md-8">
                                         <select id="UT_occupation" class="form-control input-md">
                                             <option value="">-- Select occupation --</option>  
@@ -267,7 +267,7 @@
                             <div class="col-md-6">
                                 <!-- Text input-->
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label" for="textinput">Nationality</label>
+                                    <label class="col-md-4 control-label" for="textinput">Nationality *</label>
                                     <div class="col-md-8">
                                         <select id="UT_nationality" class="form-control input-md">
                                             <option value="">-- Select nationality --</option>  
@@ -314,9 +314,9 @@
                             <div class="col-md-6">
                                 <!-- Text input-->
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label" for="textinput">Mobile Phone</label>
+                                    <label class="col-md-4 control-label" for="textinput">Mobile Phone *</label>
                                     <div class="col-md-8">
-                                        <input id="UT_mobile"  type="text" placeholder="Mobile phone number" class="form-control input-md" maxlength="30">
+                                        <input id="UT_mobile"  type="text" placeholder="Insert Mobile phone number" class="form-control input-md" maxlength="30">
                                     </div>
                                 </div>
                             </div>
@@ -326,7 +326,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="textinput">Fax No</label>
                                     <div class="col-md-8">
-                                        <input id="UT_fax"  type="text" placeholder="Fax number (Optional)" class="form-control input-md" maxlength="30">
+                                        <input id="UT_fax"  type="text" placeholder="Insert Fax number (Optional)" class="form-control input-md" maxlength="30">
                                     </div>
                                 </div>
                             </div>
@@ -346,7 +346,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="textinput">User ID Category</label>
                                     <div class="col-md-8">
-                                        <input id="UT_userIDCategory" type="text" placeholder="(Optional)" class="form-control input-md" maxlength="10">
+                                        <input id="UT_userIDCategory" type="text" placeholder="Insert user ID category(Optional)" class="form-control input-md" maxlength="10">
                                     </div>
                                 </div>
                             </div>
@@ -356,7 +356,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="textinput">User Type</label>
                                     <div class="col-md-8">
-                                        <input id="UT_userType"  type="text" placeholder="(Optional)" class="form-control input-md" maxlength="10">
+                                        <input id="UT_userType"  type="text" placeholder="Insert user type(Optional)" class="form-control input-md" maxlength="10">
                                     </div>
                                 </div>
                             </div>
@@ -370,7 +370,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="textinput">User Group</label>
                                     <div class="col-md-8">
-                                        <input id="UT_userGroup" type="text" placeholder="(Optional)" class="form-control input-md" maxlength="10">
+                                        <input id="UT_userGroup" type="text" placeholder="Insert user group(Optional)" class="form-control input-md" maxlength="10">
                                     </div>
                                 </div>
                             </div>
@@ -380,7 +380,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="textinput">User Classification</label>
                                     <div class="col-md-8">
-                                        <input id="UT_userClass"  type="text" placeholder="(Optional)" class="form-control input-md" maxlength="10">
+                                        <input id="UT_userClass"  type="text" placeholder="Insert user classification(Optional)" class="form-control input-md" maxlength="10">
                                     </div>
                                 </div>
                             </div>
@@ -392,7 +392,7 @@
                             <div class="col-md-6">
                                 <!-- Text input-->
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label" for="textinput">Start Date</label>
+                                    <label class="col-md-4 control-label" for="textinput">Start Date *</label>
                                     <div class="col-md-8">
                                         <input id="UT_startDate" type="text" placeholder="DD/MM/YYYY"  class="form-control input-md" readonly="true">
                                     </div>
@@ -402,7 +402,7 @@
                             <div class="col-md-6">
                                 <!-- Text input-->
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label" for="textinput">End Date</label>
+                                    <label class="col-md-4 control-label" for="textinput">End Date *</label>
                                     <div class="col-md-8">
                                         <input id="UT_endDate"  type="text" placeholder="DD/MM/YYYY" class="form-control input-md" readonly="true">
                                     </div>
@@ -416,13 +416,23 @@
                             <div class="col-md-6">
                                 <!-- Text input-->
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label" for="textinput">User ID Status</label>
+                                    <label class="col-md-4 control-label" for="textinput">User ID Status *</label>
                                     <div class="col-md-8">
                                         <select id="UT_userIDStatus" class="form-control input-md">
                                             <option value="0">Active</option>
                                             <option value="1">Terminated</option>
                                             <option value="2">Suspended</option>
                                         </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <!-- Text input-->
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="textinput">Mother's Name *</label>
+                                    <div class="col-md-8">
+                                        <input id="UT_mother"  type="text" placeholder="Insert the staff mother's name" class="form-control input-md" maxlength="30">
                                     </div>
                                 </div>
                             </div>
@@ -520,6 +530,7 @@
         var startDate = arrayData[14];
         var endDate = arrayData[15];
         var userIDStatus = arrayData[21];
+        var mother = arrayData[23];
 
         $('#UT_name').val(name);
         $('#UT_title').val(title);
@@ -544,6 +555,7 @@
         $('#UT_startDate').val(startDate);
         $('#UT_endDate').val(endDate);
         $('#UT_userIDStatus').val(userIDStatus);
+        $('#UT_mother').val(mother);
 
         isHFCselected = true;
         selectedHFC = $('#UT_hfc').val();
@@ -578,6 +590,7 @@
         var startDate = $('#UT_startDate').val();
         var endDate = $('#UT_endDate').val();
         var userIDStatus = $('#UT_userIDStatus').val();
+        var mother = $('#UT_mother').val();
 
         $('#UT_detail').css('overflow', 'auto');
 
@@ -621,6 +634,9 @@
 
         } else if (startDate === "" || endDate === "") {
             bootbox.alert("Select the start date and end date of the staff");
+
+        }else if (mother === "") {
+            bootbox.alert("Fill in the staff mother's name");
 
         } else if (ValidateEmail(email) === false) {
             bootbox.alert("Invalid email address");
@@ -688,7 +704,8 @@
                 userClass: userClass,
                 startDate: startDate,
                 endDate: endDate,
-                userIDStatus: userIDStatus
+                userIDStatus: userIDStatus,
+                mother : mother
             };
 
             $.ajax({

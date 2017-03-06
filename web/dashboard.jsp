@@ -3,9 +3,24 @@
     Created on : Jan 19, 2017, 12:13:13 PM
     Author     : user
 --%>
+<%@page import="java.util.Arrays"%>
+<%@page import="java.util.ArrayList"%>
 <% if (session.getAttribute("USER_ID") == null) {
         response.sendRedirect("index.jsp");
     }%>
+    
+<%
+    String modules = session.getAttribute("MODULE_CODE").toString();
+    
+    ArrayList<String> arrayModule = new  ArrayList<>(Arrays.asList(modules.split("|")));
+    
+    for(int i = 0; i<arrayModule.size(); i++){
+        
+    }
+    
+    
+
+%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -13,20 +28,20 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!-- header -->
-    <div w3-include-html="libraries/header.html"></div>
+    <%@include file="libraries/header.html"%>
     <!-- header -->
 
 </head>
 
 <body>
     <!-- menu top -->
-    <div w3-include-html="libraries/topMenus.jsp"></div>
+    <%@include file="libraries/topMenus.jsp"%>
     <!-- menu top -->
 
     <div class="container-fluid">
         <div class="row">       
             <!-- menu side -->		
-            <div w3-include-html="libraries/sideMenus.html"></div>
+            <%@include file="libraries/sideMenus.html"%>
             <!-- menu side -->	
 
             <!-- main -->		
@@ -165,7 +180,7 @@
 <script src="assets/js/w3data.js" type="text/javascript"></script>
 
 <script type ="text/javascript">
-    w3IncludeHTML();
+   
 
 </script>
 </body>

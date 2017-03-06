@@ -72,6 +72,15 @@
         <script src="assets/js/w3data.js" type="text/javascript"></script>
 	<script>
 	w3IncludeHTML();
+        
+        console.log("<%=session.getAttribute("HEALTH_FACILITY_CODE").toString()%>");
+        console.log("<%=session.getAttribute("PAGE_CODE").toString()%>");
+        console.log("<%=session.getAttribute("SYSTEM_CODE").toString()%>");
+        console.log("<%=session.getAttribute("MODULE_CODE").toString()%>");
+        console.log("<%=session.getAttribute("HFC_NAME").toString()%>");
+        console.log("<%=session.getAttribute("USER_NAME").toString()%>");
+        console.log("<%=session.getAttribute("DISCIPLINE_CODE").toString()%>");
+        console.log("<%=session.getAttribute("SUB_DISCIPLINE_CODE").toString()%>");
 	</script>
 </body>
 </html>

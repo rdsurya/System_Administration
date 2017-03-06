@@ -11,7 +11,7 @@
     Config.getBase_url(request);
     Config.getFile_url(session);
     Conn conn = new Conn();
-    out.print(conn.getIpCall());
+    //out.print(conn.getIpCall());
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,15 +37,15 @@
                 <span id="reauth-email" class="reauth-email"></span>
                 <input type="text" id="inputUserID" class="form-control" placeholder="User ID" name="username" required autofocus>
                 <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="password" required>
-                <div id="remember" class="checkbox">
+<!--                <div id="remember" class="checkbox">
                     <label>
                         <input type="checkbox" value="remember-me"> Remember me
                     </label>
-                </div>
+                </div>-->
 
             </form><!-- /form -->
             <button class="btn btn-lg btn-primary btn-block btn-signin" id="btnSign">Sign in</button>
-            <a href="forgot-pwd.html" class="forgot-password">
+            <a href="forgot-pwd.jsp" class="forgot-password">
                 Forgot the password?
             </a>
         </div><!-- /card-container -->
@@ -99,7 +99,7 @@
             } else {
 
                 $.ajax({
-                    url: "login_process1.jsp",
+                    url: "login_process2.jsp",
                     type: "post",
                     data: {userID: userID,
                         password: password
@@ -114,7 +114,9 @@
                             alert("Wrong password");
                         else if (num === 0)
                             alert("User ID does not exist");
-                        else
+                        else if (num === 3)
+                            alert("You don't have proper user access. Contact your admin to configure your user access");
+                        else 
                             alert("Error");
                     },
                     error: function (err) {

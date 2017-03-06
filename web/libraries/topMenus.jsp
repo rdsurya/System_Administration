@@ -8,7 +8,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-            <a id="Welcome" class="navbar-brand" href="dashboard.jsp">Welcome  <%= session.getAttribute("USER_NAME")%></a>
+            <a id="Welcome" class="navbar-brand" href="profile.jsp">Welcome  <%= session.getAttribute("USER_NAME")%></a>
         </div>
 		
         <div id="navbar" class="navbar-collapse collapse">

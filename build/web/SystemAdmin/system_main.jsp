@@ -78,8 +78,6 @@
 
  <script>
 
-        w3IncludeHTML();
-
         $(document).ready(function () {
             
             function SM_reset() {

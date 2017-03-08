@@ -1,13 +1,8 @@
 
 
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.sql.*"%>
-<%@page import="dBConn.Conn"%>
-<%@page import="main.RMIConnector"%>
 
-<%
-    Conn conn = new Conn();
-%>
+
+
 
 <table  id="THE_detailTable"  class="table table-striped table-bordered" cellspacing="0" width="100%">
     <thead>
@@ -22,48 +17,7 @@
     <th>Update</th>
     <th>Delete</th>
 </thead>
-<tbody>
-
-    <%
-        String sql = " SELECT lm.master_reference_code, ld.detail_reference_code, ld.description, IFNULL(ld.status, ''), lm.description, ifnull(ld.priority_indicator, '0'), ifnull(DATE_FORMAT(ld.start_date,'%d/%m/%Y'), ''), ifnull(DATE_FORMAT(ld.end_date,'%d/%m/%Y'), '')"
-                + " FROM adm_lookup_detail ld join adm_lookup_master lm using (master_reference_code)";
-        ArrayList<ArrayList<String>> dataDetail = conn.getData(sql);
-
-        int size = dataDetail.size();
-        for (int i = 0; i < size; i++) {
-    %>
-
-    <tr>
-<input id="DLT_hidden" type="hidden" value="<%=String.join("|", dataDetail.get(i))%>">
-<td style="width: 10% "><%= dataDetail.get(i).get(0)%></td> <!--master code  -->   
-<td style="width: 10% "><%= dataDetail.get(i).get(4)%></td> <!--master name  --> 
-<td><%= dataDetail.get(i).get(1)%></td> <!--detail code  --> 
-<td><%= dataDetail.get(i).get(2)%></td> <!--detail name  --> 
-<td><%= dataDetail.get(i).get(5)%></td> <!--priority  --> 
-<td><%= dataDetail.get(i).get(6)%></td> <!--start Date  --> 
-<td><%= dataDetail.get(i).get(7)%></td> <!--end date  --> 
-<td><%if(dataDetail.get(i).get(3).equals("1"))
-                out.print("Inactive"); 
-              else
-                out.print("Active"); %></td> <!--status 3 --> 
-
-<td style="width: 5% ">
-
-    <!-- Update Part Start -->
-    <a id="DLT_btnUpdate" data-toggle="modal" data-target="#DLT_detail2_" style="cursor: pointer"><i class="fa fa-pencil-square-o" aria-hidden="true" style="display: inline-block;color: #337ab7;"></i></a>
-</td>
-<td style="width: 5% ">
-    <!-- Delete Button Start -->
-    <a id="DLT_deleteButton_" class="testing" style="cursor: pointer"><i class="fa fa-times" aria-hidden="true" style="display: inline-block;color: #d9534f;" ></i></a>
-    <!-- Delete Button End -->
-</td>
-</tr>
-
-
-
-<%
-    }
-%>
+<tbody id="detailTable_body">
 
 </tbody>
 </table>
@@ -335,60 +289,6 @@
     });
 
 
-//      $('#detailTable').on('click', '#THE_detailTable #DLT_deleteButton_', function (e) {
-//        e.preventDefault();
-//        var row2 = $(this).closest("tr");
-//        var rowData2 = row2.find("#DLT_hidden").val();
-//        
-//        console.log(rowData2.split("|"));
-//        confirm({
-//            message: "Are you sure want to delete the detail code?",
-//            buttons: {
-//                confirm: {
-//                    label: 'Yes',
-//                    className: 'btn-success'
-//                },
-//                cancel: {
-//                    label: 'No',
-//                    className: 'btn-danger'
-//                }
-//            },
-//            callback: function (result) {
-//                
-//                if (result === true) {
-//                    //get the row value
-//                    row2.remove();
-//                    var arrayData2 = rowData2.split("|");
-//                    //assign into seprated val
-//                    var masterCode = arrayData2[0], detailCode = arrayData2[1];
-//                    var datas = {masterCode : masterCode,
-//                                 detailCode : detailCode};
-//                    console.log(datas);
-//                    $.ajax({
-//                        type: "post",
-//                        url: "detail_lookup_delete.jsp",
-//                        data: datas,
-//                        timeout: 3000,
-//                        success: function (data) {
-//                             if (datas.trim() === 'Success') {
-//                                alert("Delete Success");
-//                            } else if (datas.trim() === 'Failed') {
-//                                alert("Delete failed!");
-//                            }
-//
-//
-//                        }, error: function () {
-//
-//                        }
-//
-//                    });
-//                }
-//            }
-//        });
-//    });
-
-
-//   
 
 </script>  
 
@@ -400,10 +300,7 @@
 
 <script type="text/javascript" charset="utf-8">
     $(document).ready(function () {
-        $('#THE_detailTable').DataTable({
-            deferRender : true
-        });
-
+       
         $('#DLT_startDate').datepicker({
             changeYear: true,
             changeMonth: true,

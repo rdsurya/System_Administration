@@ -3,13 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/user/Desktop/Ardhi/GIT/System_Administration/web/SystemAdmin/system_main.jsp</file>
-            <file>file:/C:/Users/user/Desktop/Ardhi/GIT/System_Administration/web/SystemAdmin/accessRole_table.jsp</file>
-            <file>file:/C:/Users/user/Desktop/Ardhi/GIT/System_Administration/web/SystemAdmin/User_Administration_Maintenance.jsp</file>
-            <file>file:/C:/Users/user/Desktop/Ardhi/GIT/System_Administration/web/SystemAdmin/accessRole_main.jsp</file>
-            <file>file:/C:/Users/user/Desktop/Ardhi/GIT/System_Administration/web/SystemAdmin/RESM_result.jsp</file>
-            <file>file:/C:/Users/user/Desktop/Ardhi/GIT/System_Administration/web/SystemAdmin/responsibility_main.jsp</file>
-            <file>file:/C:/Users/user/Desktop/Ardhi/GIT/System_Administration/web/SystemAdmin/user.html</file>
+            <file>file:/C:/Users/user/Desktop/Ardhi/GIT/System_Administration/web/Entrance/login.jsp</file>
+            <file>file:/C:/Users/user/Desktop/Ardhi/GIT/System_Administration/web/SystemAdmin/System_Maintenance.jsp</file>
+            <file>file:/C:/Users/user/Desktop/Ardhi/GIT/System_Administration/web/SystemAdmin/page_main.jsp</file>
+            <file>file:/C:/Users/user/Desktop/Ardhi/GIT/System_Administration/web/Entrance/profile.jsp</file>
         </group>
     </open-files>
 </project-private>

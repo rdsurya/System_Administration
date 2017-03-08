@@ -100,8 +100,6 @@
 
 <script>
 
-    w3IncludeHTML();
-
     $(document).ready(function () {
 
         var isDisCodeExist = false;

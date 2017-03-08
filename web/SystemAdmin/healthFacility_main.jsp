@@ -269,8 +269,6 @@
 
 <script>
 
-    w3IncludeHTML();
-
     $(document).ready(function () {
         
         $('#HFM_establishedDate').datepicker({

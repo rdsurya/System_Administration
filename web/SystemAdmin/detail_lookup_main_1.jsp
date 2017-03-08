@@ -121,9 +121,9 @@
 <!-- Add Part End -->
 
 
-<script>
 
-    w3IncludeHTML();
+<script>
+   
 
     $(document).ready(function () {
 

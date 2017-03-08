@@ -17,6 +17,7 @@
     <th>Master Name</th>
     <th>Source</th>
     <th>Status</th>
+    <th>View Detail</th>
     <th>Update</th>
     <th>Delete</th>
 </thead>
@@ -31,35 +32,42 @@
     %>
 
     <tr>
-        <input id="MLT_hidden" type="hidden" value="<%=String.join("|", dataMaster.get(i))%>">
-        <td><%= dataMaster.get(i).get(0)%></td>
-        <td><%= dataMaster.get(i).get(1)%></td>
-        <td><%= dataMaster.get(i).get(3)%></td>
-        <td><%if(dataMaster.get(i).get(2).equals("1"))
-                out.print("Inactive"); 
-              else
-                out.print("Active"); %></td>
+<input id="MLT_hidden" type="hidden" value="<%=String.join("|", dataMaster.get(i))%>">
+<td><%= dataMaster.get(i).get(0)%></td>
+<td><%= dataMaster.get(i).get(1)%></td>
+<td><%= dataMaster.get(i).get(3)%></td>
+<td><%if (dataMaster.get(i).get(2).equals("1")) {
+                out.print("Inactive");
+            } else {
+                out.print("Active");
+            } %></td>
+
+<td style="width: 5% ">
+
+    <a id="MLT_btnViewDetail" style="cursor: pointer"><i class="fa fa-arrow-right" aria-hidden="true" style="display: inline-block;color: #337ab7;"></i></a>
+
+</td>
 
 
-        <td style="width: 5% ">
+<td style="width: 5% ">
 
-            <!-- Update Part Start -->
-            <a id="MLT_btnUpdate" data-toggle="modal" data-target="#detail2_" style="cursor: pointer"><i class="fa fa-pencil-square-o" aria-hidden="true" style="display: inline-block;color: #337ab7;"></i></a>
+    <!-- Update Part Start -->
+    <a id="MLT_btnUpdate" data-toggle="modal" data-target="#detail2_" style="cursor: pointer"><i class="fa fa-pencil-square-o" aria-hidden="true" style="display: inline-block;color: #337ab7;"></i></a>
 
-            <!-- Modal Update -->
+    <!-- Modal Update -->
 
-            <!-- Update Part End -->
-        </td>
-        <!-- Delete Part Start -->
-        <td style="width: 5% ">
-            <!-- Delete Button Start -->
-            <a id="deleteButton_" class="testing" style="cursor: pointer"><i class="fa fa-times" aria-hidden="true" style="display: inline-block;color: #d9534f;" ></i></a>
-        </td>
-        <!-- Delete Button End -->
-    </tr>
-    <%
-        }
-    %>
+    <!-- Update Part End -->
+</td>
+<!-- Delete Part Start -->
+<td style="width: 5% ">
+    <!-- Delete Button Start -->
+    <a id="deleteButton_" class="testing" style="cursor: pointer"><i class="fa fa-times" aria-hidden="true" style="display: inline-block;color: #d9534f;" ></i></a>
+</td>
+<!-- Delete Button End -->
+</tr>
+<%
+    }
+%>
 </tbody>
 </table>    
 
@@ -91,7 +99,7 @@
                             <input type="text" id="masterDesc_" class="form-control" maxlength="100"  >
                         </div>
                     </div>
-                    
+
                     <!-- Text input-->
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="textinput">Source</label>
@@ -108,7 +116,7 @@
                             <select class="form-control" name="tstatus" id="status_">
                                 <option value="0" >Active</option>
                                 <option value="1" >Inactive</option>
-                                
+
                             </select>
                         </div>
                     </div>
@@ -132,10 +140,10 @@
 
 
 <script type="text/javascript" charset="utf-8">
-    
+
     $('#masterTable').off('click', '#THE_masterTable #MLT_btnUpdate').on('click', '#THE_masterTable #MLT_btnUpdate', function (e) {
         e.preventDefault();
-        
+
         //go to the top
 //        $('html,body').animate({
 //            scrollTop: $("#maintainFam").offset().top
@@ -151,19 +159,19 @@
         $('#masterCode_').val(masterCode);
         $('#masterDesc_').val(masterDesc);
         $('#masterSource_').val(masterSource);
-        
-        if(status === '1')
+
+        if (status === '1')
             $('#status_').val(1);
         else
             $('#status_').val(0);
-          
-        
-        
+
+
+
         console.log(arrayData);
     });
-    
+
     $("#MLT_btn_update_").off('click').on('click', function (e) {
-        
+
         e.preventDefault();
         //console.log("entering Update");
         var masterCode = $("#masterCode_").val();
@@ -171,23 +179,20 @@
         var masterSource = $("#masterSource_").val();
         var status = $("#status_").val();
 
-        if(masterCode === "" || masterCode === null){
+        if (masterCode === "" || masterCode === null) {
             bootbox.alert("Fill in the master code");
-        }
-        else if(masterDesc === "" || masterDesc === null){
+        } else if (masterDesc === "" || masterDesc === null) {
             bootbox.alert("Fill in the master name");
-        }
-        else if(status !=='1' && status !=='0'){
+        } else if (status !== '1' && status !== '0') {
             bootbox.alert("Select the status");
-        }
-        else{
+        } else {
             var data = {
-                masterCode : masterCode,
-                masterDesc : masterDesc,
-                masterSource : masterSource,
-                status : status
+                masterCode: masterCode,
+                masterDesc: masterDesc,
+                masterSource: masterSource,
+                status: status
             };
-            
+
             //console.log("entering Ajax");
             $.ajax({
                 url: "master_lookup_update.jsp",
@@ -196,13 +201,13 @@
                 timeout: 10000, // 10 seconds
                 success: function (datas) {
 
-                        if (datas.trim() === 'Success') {
-                            $('#masterTable').load('master_lookup_table_1.jsp');
-                             $(".modal-backdrop").hide();
-                            bootbox.alert("Lookup master is updated");
-                        } else if (datas.trim() === 'Failed') {
-                            bootbox.alert("Update failed!");
-                        }
+                    if (datas.trim() === 'Success') {
+                        $('#masterTable').load('master_lookup_table_1.jsp');
+                        $(".modal-backdrop").hide();
+                        bootbox.alert("Lookup master is updated");
+                    } else if (datas.trim() === 'Failed') {
+                        bootbox.alert("Update failed!");
+                    }
 
                 },
                 error: function (err) {
@@ -210,29 +215,29 @@
                 }
 
             });
-        }   
+        }
 
 
     });
-        
-    
-     $('#masterTable').off('click', '#THE_masterTable #deleteButton_').on('click', '#THE_masterTable #deleteButton_', function (e) {
-         
-         e.preventDefault();
-         
+
+
+    $('#masterTable').off('click', '#THE_masterTable #deleteButton_').on('click', '#THE_masterTable #deleteButton_', function (e) {
+
+        e.preventDefault();
+
         var row = $(this).closest("tr");
         var rowData = row.find("#MLT_hidden").val();
         var arrayData = rowData.split("|");
         //assign into seprated val
         var masterCode = arrayData[0];
         console.log(arrayData);
-            
-          bootbox.confirm('Are you sure want to delete? ' + masterCode, function(conf){
-              
-              if (conf) {
+
+        bootbox.confirm('Are you sure want to delete? ' + masterCode, function (conf) {
+
+            if (conf) {
 
                 var data = {
-                    masterCode: masterCode 
+                    masterCode: masterCode
                 };
 
                 $.ajax({
@@ -245,11 +250,11 @@
                         if (datas.trim() === 'Success') {
                             $('#masterTable').load('master_lookup_table_1.jsp');
                             bootbox.alert("A master lookup code is deleted");
-                            
+
                         } else if (datas.trim() === 'Failed') {
                             bootbox.alert("Delete failed!");
-                            
-                        }else{
+
+                        } else {
                             bootbox.alert(datas.trim());
                         }
 
@@ -261,12 +266,46 @@
                 });
 
             }
-              
-          } );
-            
-         
-     });
-    
+
+        });
+
+
+    });
+
+
+    $('#masterTable').off('click', '#THE_masterTable #MLT_btnViewDetail').on('click', '#THE_masterTable #MLT_btnViewDetail', function (e) {
+        e.preventDefault();
+
+
+        var row = $(this).closest("tr");
+        var rowData = row.find("#MLT_hidden").val();
+        var arrayData = rowData.split("|");
+        //assign into seprated val
+        var masterCode = arrayData[0];
+
+        var data = {masterCode: masterCode};
+        $('#THE_detailTable').DataTable().destroy();
+
+        $.ajax({
+            type: 'POST',
+            url: "detail_lookup_table_loader.jsp",
+            data: data,
+            success: function (data, textStatus, jqXHR) {
+                $('#detailTable_body').html(data);
+               
+                $('.nav-tabs a[href="#tab_default_2"]').tab('show');
+            }
+        });
+
+
+
+
+
+
+
+
+    });
+
 
 </script>  
 

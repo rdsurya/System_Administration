@@ -11,7 +11,7 @@
 //    Config.getBase_url(request);
 //    Config.getFile_url(session);
     Conn conn = new Conn();
-    out.print(conn.getIpCall());
+    //out.print(conn.getIpCall());
 %>
 <!DOCTYPE html>
 <html lang="en">

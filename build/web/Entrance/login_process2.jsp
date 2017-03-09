@@ -22,8 +22,8 @@
     String user_id = request.getParameter("userID");
     String password = request.getParameter("password");
 
-    //                       0           1      2           3                   4
-    String sql = "Select user_id, password, user_name, health_facility_code, hfc_name from adm_users "
+    //                       0           1      2           3                   4                   5
+    String sql = "Select user_id, password, user_name, health_facility_code, hfc_name, ifnull(convert(picture using utf8), '') from adm_users "
             + "Join adm_health_facility on health_facility_code = hfc_cd "
             + "where user_id = '" + user_id + "' limit 1";
     ArrayList<ArrayList<String>> dataStaff = conn.getData(sql);
@@ -42,9 +42,10 @@
 
             if (dataUserAccess.size() > 0) {
 
-                String user_name, hfc_cd, hfc_name, discipline_code, subdiscipline_code, role_code, system_code, module_code, page_code;
+                String user_name, proPic, hfc_cd, hfc_name, discipline_code, subdiscipline_code, role_code, system_code, module_code, page_code;
 
                 user_name = dataStaff.get(0).get(2);
+                proPic = dataStaff.get(0).get(5);
                 hfc_cd = dataStaff.get(0).get(3);
                 hfc_name = dataStaff.get(0).get(4);
 
@@ -80,6 +81,7 @@
                 //setting the session;
                 session.setAttribute("USER_ID", user_id);
                 session.setAttribute("USER_NAME", user_name);
+                session.setAttribute("PICTURE", proPic);
 
                 session.setAttribute("HEALTH_FACILITY_CODE", hfc_cd);
                 session.setAttribute("HFC_NAME", hfc_name);

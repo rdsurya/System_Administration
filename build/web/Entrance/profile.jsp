@@ -38,7 +38,7 @@
         <div class="container-fluid">
             <div class="row">       
                 <!-- menu side -->
-                <%@include file="libraries/sideMenus.html" %>
+                <%@include file="libraries/sideMenus.jsp" %>
                 <!-- menu side -->	
 
                 <!-- main -->	
@@ -66,6 +66,10 @@
                                                 <a href="#PR_tab2" data-toggle="tab">
                                                     CHANGE PASSWORD </a>
                                             </li>
+                                            <li>
+                                                <a href="#PR_tab3" data-toggle="tab">
+                                                    CHANGE PICTURE </a>
+                                            </li>
 
 
                                         </ul>
@@ -81,6 +85,14 @@
                                             <div class="tab-pane" id="PR_tab2">
 
                                                 <div id="changePassword">
+
+                                                </div>
+
+                                            </div>
+                                            
+                                            <div class="tab-pane" id="PR_tab3">
+
+                                                <div id="changePicture">
 
                                                 </div>
 
@@ -133,6 +145,7 @@
 
                 $("#personalInfo").load("personalInfo.jsp");
                 $("#changePassword").load("changePassword.jsp");
+                $("#changePicture").load("changePicture.jsp");
 
 
             });

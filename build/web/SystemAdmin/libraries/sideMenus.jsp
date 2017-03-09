@@ -8,16 +8,16 @@
 		<!-- profile Sidebar -->
 		<div class="profile">
 				<div class="profile-userpic">
-					<img src="../assets/profile.jpg" class="img-responsive" alt="">
+                                    <img src="<%= session.getAttribute("PICTURE").toString()%>" class="img-responsive" alt="profile pic">
 				</div>
 				<!-- SIDEBAR USER TITLE -->
 				<div class="profile-usertitle">
 					<div class="profile-usertitle-name">
-						Marcus Doe
+						<%=session.getAttribute("USER_NAME").toString() %>
 					</div>
-					<div class="profile-usertitle-job">
+<!--					<div class="profile-usertitle-job">
 						Developer
-					</div>
+					</div>-->
 				</div>
 				<!-- SIDEBAR BUTTONS -->
 				<div class="profile-userbuttons">
